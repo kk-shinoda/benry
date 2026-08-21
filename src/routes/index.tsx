@@ -30,6 +30,20 @@ function Home() {
           </span>
         </Link>
 
+        <Link to="/dng-jpeg" className="tool-card">
+          <span className="tool-index">02</span>
+          <span className="tool-body">
+            <span className="tool-name">DNG → JPEG 変換</span>
+            <span className="tool-desc">
+              スマホの RAW（DNG）を JPEG に。Finder でコピー → ボタン →
+              クリップボードに変換済み JPEG が入る
+            </span>
+          </span>
+          <span className="tool-arrow" aria-hidden>
+            →
+          </span>
+        </Link>
+
         <div className="tool-card tool-card--ghost" aria-hidden>
           <span className="tool-index">03</span>
           <span className="tool-body">

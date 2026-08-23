@@ -29,6 +29,10 @@
   - 初回保存時に `<name>.cape.bak` を自動作成。「編集をすべて元に戻す」で復元
   - 前提: `/Applications/Mousecape.app`（`~/apps/Mousecape-swiftUI` からビルドしたもの。mousecloak CLI 同梱）
   - 再起動後もカーソルを維持したい場合は Mousecape.app の設定から Helper Tool をインストール
+  - 同梱テンプレート: `templates/local.benry.touch-pointer.cape` —
+    **タッチポインタ（録画用）**。矢印などを iOS デモ動画風の半透明タッチサークルに差し替える
+    （iPhone ミラーリングの操作説明動画で PC カーソルの違和感を消す用）。
+    録画前に適用 → 録画後に「標準に戻す」。ライブラリに入れるには capes ディレクトリにコピー
 
 ## 場所と自動起動
 

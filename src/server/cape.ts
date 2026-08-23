@@ -257,6 +257,21 @@ export async function readClipboardImagePng(): Promise<ClipboardImage> {
   return { ok: false, message: 'クリップボードに画像がありません' }
 }
 
+// いま適用されている cape の Identifier（mousecloak が ByHost defaults に記録、未適用なら null）
+export async function appliedIdentifier(): Promise<string | null> {
+  try {
+    const { stdout } = await run('defaults', [
+      '-currentHost',
+      'read',
+      'com.alexzielenski.Mousecape',
+      'MCAppliedCursor',
+    ])
+    return stdout.trim() || null
+  } catch {
+    return null
+  }
+}
+
 export type CloakResult = { ok: true; output: string } | { ok: false; message: string }
 
 async function mousecloak(args: string[]): Promise<CloakResult> {

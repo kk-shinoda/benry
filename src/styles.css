@@ -1036,24 +1036,65 @@ button {
   top: 1rem;
 }
 
-.cc-cape-bar {
+.cc-capes {
   display: flex;
   gap: 0.6rem;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
 
-.cc-select {
+.cc-cape-card {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   background: var(--panel);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 4px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.cc-cape-card:hover {
+  border-color: var(--line);
+}
+
+.cc-cape-card--active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.cc-cape-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   font-family: var(--sans);
+}
+
+.cc-cape-name {
   font-size: 0.85rem;
-  padding: 0.5rem 0.7rem;
-  flex: 1;
-  min-width: 10rem;
+  color: var(--text);
+}
+
+.cc-cape-author {
+  font-size: 0.68rem;
+  color: var(--text-faint);
+}
+
+.cc-badge {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  white-space: nowrap;
+}
+
+.cc-reset {
+  align-self: center;
+  margin-left: auto;
 }
 
 .cc-btn {

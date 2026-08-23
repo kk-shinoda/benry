@@ -8,10 +8,12 @@ export const Route = createFileRoute('/cursor-cape')({
 
 import type { CapeInfo, CloakResult, CursorInfo, CursorPatch } from '../server/cape'
 
+type CapeList = { capes: CapeInfo[]; applied: string | null }
+
 const listCapesFn = createServerFn({ method: 'POST' }).handler(
-  async (): Promise<CapeInfo[]> => {
+  async (): Promise<CapeList> => {
     const cape = await import('../server/cape')
-    return cape.listCapes()
+    return { capes: await cape.listCapes(), applied: await cape.appliedIdentifier() }
   },
 )
 
@@ -34,17 +36,21 @@ const clipboardImageFn = createServerFn({ method: 'POST' }).handler(async () => 
   return cape.readClipboardImagePng()
 })
 
+type CloakReply = { result: CloakResult; applied: string | null }
+
 const applyCapeFn = createServerFn({ method: 'POST' })
   .inputValidator((d: { file: string }) => d)
-  .handler(async ({ data }): Promise<CloakResult> => {
+  .handler(async ({ data }): Promise<CloakReply> => {
     const cape = await import('../server/cape')
-    return cape.applyCape(data.file)
+    const result = await cape.applyCape(data.file)
+    return { result, applied: await cape.appliedIdentifier() }
   })
 
 const resetCursorsFn = createServerFn({ method: 'POST' }).handler(
-  async (): Promise<CloakResult> => {
+  async (): Promise<CloakReply> => {
     const cape = await import('../server/cape')
-    return cape.resetCursors()
+    const result = await cape.resetCursors()
+    return { result, applied: await cape.appliedIdentifier() }
   },
 )
 
@@ -216,6 +222,7 @@ function fileToPngBase64(file: File): Promise<string> {
 
 function CursorCapePage() {
   const [capes, setCapes] = useState<CapeInfo[] | null>(null)
+  const [applied, setApplied] = useState<string | null>(null)
   const [capeFile, setCapeFile] = useState<string | null>(null)
   const [cursorId, setCursorId] = useState<string | null>(null)
   const [draft, setDraft] = useState<Draft | null>(null)
@@ -231,9 +238,10 @@ function CursorCapePage() {
   }, [])
 
   const reload = useCallback(async () => {
-    const list = await listCapesFn()
-    setCapes(list)
-    return list
+    const res = await listCapesFn()
+    setCapes(res.capes)
+    setApplied(res.applied)
+    return res.capes
   }, [])
 
   useEffect(() => {
@@ -333,24 +341,28 @@ function CursorCapePage() {
     }
   }, [cape, cursor, draft, pendingPng, note])
 
-  const apply = useCallback(async () => {
-    if (!cape) return
-    setBusy('apply')
-    try {
-      const res = await applyCapeFn({ data: { file: cape.file } })
-      if (res.ok) note('ok', `「${cape.name}」を適用しました。マウスを動かして確認！`)
-      else note('err', `適用に失敗: ${res.message}`)
-    } finally {
-      setBusy(null)
-    }
-  }, [cape, note])
+  const apply = useCallback(
+    async (file: string, name: string) => {
+      setBusy('apply')
+      try {
+        const res = await applyCapeFn({ data: { file } })
+        setApplied(res.applied)
+        if (res.result.ok) note('ok', `「${name}」を適用しました。マウスを動かして確認！`)
+        else note('err', `適用に失敗: ${res.result.message}`)
+      } finally {
+        setBusy(null)
+      }
+    },
+    [note],
+  )
 
   const reset = useCallback(async () => {
     setBusy('reset')
     try {
       const res = await resetCursorsFn()
-      if (res.ok) note('ok', 'macOS 標準カーソルに戻しました')
-      else note('err', `リセットに失敗: ${res.message}`)
+      setApplied(res.applied)
+      if (res.result.ok) note('ok', 'macOS 標準カーソルに戻しました')
+      else note('err', `リセットに失敗: ${res.result.message}`)
     } finally {
       setBusy(null)
     }
@@ -436,28 +448,50 @@ function CursorCapePage() {
       ) : (
         <div className="cc-layout">
           <section className="cc-left">
-            <div className="cc-cape-bar">
-              <select
-                className="cc-select"
-                value={cape?.file ?? ''}
-                onChange={(e) => {
-                  setCapeFile(e.target.value)
-                  setCursorId(null)
-                  setDraft(null)
-                  setPendingPng(null)
-                }}
+            <div className="cc-capes">
+              {capes.map((c) => (
+                <div
+                  key={c.file}
+                  role="button"
+                  tabIndex={0}
+                  className={`cc-cape-card${c.file === cape?.file ? ' cc-cape-card--active' : ''}`}
+                  onClick={() => {
+                    setCapeFile(c.file)
+                    setCursorId(null)
+                    setDraft(null)
+                    setPendingPng(null)
+                    setPendingSize(null)
+                  }}
+                >
+                  {c.cursors[0] && <CursorAnim cursor={c.cursors[0]} box={44} />}
+                  <span className="cc-cape-meta">
+                    <span className="cc-cape-name">{c.name}</span>
+                    <span className="cc-cape-author">
+                      {c.author || '?'} ・ {c.cursors.length} カーソル
+                    </span>
+                  </span>
+                  {applied === c.identifier ? (
+                    <span className="cc-badge">適用中</span>
+                  ) : (
+                    <button
+                      className="cc-btn cc-btn--mini cc-btn--accent"
+                      disabled={busy !== null}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        void apply(c.file, c.name)
+                      }}
+                    >
+                      {busy === 'apply' ? '適用中…' : '適用'}
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                className="cc-btn cc-reset"
+                onClick={reset}
+                disabled={busy !== null || applied === null}
               >
-                {capes.map((c) => (
-                  <option key={c.file} value={c.file}>
-                    {c.name}（{c.author}）
-                  </option>
-                ))}
-              </select>
-              <button className="cc-btn cc-btn--accent" onClick={apply} disabled={busy !== null}>
-                {busy === 'apply' ? '適用中…' : 'この cape を適用'}
-              </button>
-              <button className="cc-btn" onClick={reset} disabled={busy !== null}>
-                標準に戻す
+                {busy === 'reset' ? '戻し中…' : '標準カーソルに戻す'}
               </button>
             </div>
 
@@ -606,7 +640,7 @@ function CursorCapePage() {
                   )}
                 </div>
                 <p className="cc-dim">
-                  保存は cape ファイルの書き換えまで。マウスへの反映は「この cape を適用」。初回保存時に
+                  保存は cape ファイルの書き換えまで。マウスへの反映は cape カードの「適用」。初回保存時に
                   .bak を自動作成します。
                 </p>
               </div>

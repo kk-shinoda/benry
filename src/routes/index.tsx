@@ -44,8 +44,22 @@ function Home() {
           </span>
         </Link>
 
-        <div className="tool-card tool-card--ghost" aria-hidden>
+        <Link to="/cursor-cape" className="tool-card">
           <span className="tool-index">03</span>
+          <span className="tool-body">
+            <span className="tool-name">カーソルテーマ工房</span>
+            <span className="tool-desc">
+              Mousecape の cape をブラウザで編集。カーソル画像を差し替えて、ワンクリックで
+              Mac に適用
+            </span>
+          </span>
+          <span className="tool-arrow" aria-hidden>
+            →
+          </span>
+        </Link>
+
+        <div className="tool-card tool-card--ghost" aria-hidden>
+          <span className="tool-index">04</span>
           <span className="tool-body">
             <span className="tool-name">（次の道具）</span>
             <span className="tool-desc">ここに次の便利機能が入る予定</span>

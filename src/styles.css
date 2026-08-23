@@ -990,3 +990,310 @@ button {
     display: none;
   }
 }
+
+/* ============================================================
+   03 カーソルテーマ工房 (.cc-*)
+   ============================================================ */
+
+.cc-lead {
+  max-width: 1100px;
+  margin: 0 auto 1.4rem;
+  padding: 0 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+.cc-empty {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  color: var(--text-dim);
+}
+
+.cc-dim {
+  color: var(--text-faint);
+  font-size: 0.78rem;
+}
+
+.cc-layout {
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 1.4rem;
+  align-items: flex-start;
+}
+
+.cc-left {
+  flex: 1.2;
+  min-width: 0;
+}
+
+.cc-right {
+  flex: 1;
+  min-width: 0;
+  position: sticky;
+  top: 1rem;
+}
+
+.cc-cape-bar {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.cc-select {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.7rem;
+  flex: 1;
+  min-width: 10rem;
+}
+
+.cc-btn {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.cc-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.cc-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.cc-btn--accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.cc-btn--accent:hover:not(:disabled) {
+  background: var(--accent-hi);
+}
+
+.cc-btn--mini {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.cc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 0.55rem;
+}
+
+.cc-tile {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  padding: 0.65rem 0.4rem 0.55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-family: var(--sans);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.cc-tile:hover {
+  border-color: var(--line);
+}
+
+.cc-tile--active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 18px rgba(244, 80, 30, 0.25);
+  color: var(--text);
+}
+
+.cc-tile-name {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.cc-tile-frames {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--amber);
+}
+
+/* 透過チェッカー背景つきプレビュー箱 */
+.cc-anim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background:
+    repeating-conic-gradient(#2e2820 0% 25%, #241f18 0% 50%) 0 0 / 14px 14px;
+  overflow: hidden;
+}
+
+.cc-anim--empty {
+  opacity: 0.4;
+}
+
+.cc-editor {
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.cc-editor-hint {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.cc-editor-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.cc-editor-id {
+  font-family: var(--mono);
+  margin-top: -0.6rem;
+}
+
+.cc-label {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-bottom: 0.35rem;
+}
+
+.cc-preview-row {
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.cc-hotspot-box {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 4px;
+  background:
+    repeating-conic-gradient(#2e2820 0% 25%, #241f18 0% 50%) 0 0 / 14px 14px;
+  cursor: crosshair;
+  overflow: hidden;
+}
+
+.cc-hotspot-img {
+  position: absolute;
+  inset: 0;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.cc-hotspot-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  border: 1.5px solid var(--amber);
+  background: rgba(255, 180, 84, 0.35);
+  pointer-events: none;
+}
+
+.cc-drop {
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.cc-drop--over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.cc-drop-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cc-pending {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+}
+
+.cc-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem 0.9rem;
+}
+
+.cc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.cc-field input {
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.cc-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.cc-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .cc-layout {
+    flex-direction: column;
+  }
+  .cc-right {
+    position: static;
+    width: 100%;
+  }
+}

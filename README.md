@@ -19,6 +19,17 @@
   - 品質スライダー（60–100、既定 85）。DNG のほか ARW / CR2 / CR3 / NEF / RAF / HEIC / TIFF 等も対応
   - 複数ファイルがコピーされていた場合は最初の 1 件のみ変換
 
+- **03 カーソルテーマ工房** (`/cursor-cape`)
+  [Mousecape-swiftUI](https://github.com/isandrel/Mousecape-swiftUI) の cape（カーソルテーマ）をブラウザで編集して、ワンクリックで Mac に適用。
+  - cape ライブラリ `~/Library/Application Support/Mousecape/capes` の .cape を一覧し、各カーソルをアニメーションプレビュー
+  - 画像の差し替え: ファイルのドロップ / 選択、または**クリップボードの画像**（⌘C したスクショや画像ファイル）から
+  - ホットスポットはプレビュー画像のクリックでも設定可。フレーム数 / 1コマ秒数 / サイズ (pt) も編集可能
+  - アニメカーソルは全フレームを**縦に積んだ 1 枚画像**（例: 32pt・6コマ・@2x → 64×384px）
+  - 「適用」= `mousecloak --apply`、「標準に戻す」= `mousecloak --reset`（すべてローカル、外部送信なし）
+  - 初回保存時に `<name>.cape.bak` を自動作成。「編集をすべて元に戻す」で復元
+  - 前提: `/Applications/Mousecape.app`（`~/apps/Mousecape-swiftUI` からビルドしたもの。mousecloak CLI 同梱）
+  - 再起動後もカーソルを維持したい場合は Mousecape.app の設定から Helper Tool をインストール
+
 ## 場所と自動起動
 
 - 実体: `~/apps/benry`（`~/Documents/08_app/benry` はシンボリックリンク）
